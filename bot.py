@@ -11,7 +11,7 @@ import re
 
 # for x in range(2, 12):
 
-yesterday = datetime.now() - timedelta(x)
+yesterday = datetime.now() - timedelta(1)
 yesterday = datetime.strftime(yesterday, format='%d.%m.%Y')
 
 # print(yesterday)
