@@ -3,13 +3,18 @@
 import requests
 from dbfunctions.dbinsert_roller import insert_roller
 import json
+from datetime import datetime, timedelta
 
 # Endepunkt:
 # https://data.brreg.no/enhetsregisteret/api/enheter/{enhetorgnr}/roller
 
 
-def get_updated_roles():
-    url = f'https://data.brreg.no/enhetsregisteret/api/oppdateringer/roller?size=10000&afterTime=2024-09-10T00:00:00.000Z'
+def get_updated_roles(lag=1):
+
+    yesterday = datetime.now() - timedelta(lag)
+    yesterday = datetime.strftime(yesterday, format='%Y-%m-%d')
+    url = """https://data.brreg.no/enhetsregisteret/api/oppdateringer/roller?size=10000&afterTime={yesterday}T00:00:00.000Z""".format(
+        yesterday=yesterday)
 
     try:
         req = requests.get(url)

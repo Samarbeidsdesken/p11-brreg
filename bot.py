@@ -2,7 +2,6 @@ import konkurser.konkurser as konkurser
 from dbfunctions.dbinsert_konkurser import insert_konkurser
 from dbfunctions.dbinsert_bostyrer import insert_bostyrer
 import bostyrer.bostyrer as bostyrer
-import enheter.alle_enheter as alle_enheter
 from bs4 import BeautifulSoup as bs
 import pandas as pd
 from io import StringIO

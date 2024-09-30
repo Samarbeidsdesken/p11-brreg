@@ -1,24 +1,16 @@
 
 
 import requests
-# from dbfunctions.dbinsert_roller import insert_roller
+from dbfunctions.dbinsert_roller import insert_roller
 import json
-from datetime import datetime, timedelta
 
 
 # Endepunkt:
 # https://data.brreg.no/enhetsregisteret/api/enheter/{enhetorgnr}/roller
 
 
-def get_updated_companies(lag=1):
-
-    yesterday = datetime.now() - timedelta(lag)
-    yesterday = datetime.strftime(yesterday, format='%Y-%m-%d')
-
-    url = """https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato={yesterday}T00:00:00.000Z""".format(
-        yesterday=yesterday)
-
-    print(url)
+def get_company(org):
+    url = f'https://data.brreg.no/enhetsregisteret/api/enheter/{org}'
 
     try:
         req = requests.get(url)
@@ -40,7 +32,9 @@ def get_updated_companies(lag=1):
 
 
 if __name__ == '__main__':
-    updated_orgs = get_updated_companies()
+    updated_orgs = get_company()
     print(len(updated_orgs))
     for elem in updated_orgs['_embedded']['oppdaterteEnheter']:
         print(elem)
+
+    print()
