@@ -1,8 +1,6 @@
 import psycopg2
 from dbconnect.dbconfig import load_config
 
-import pandas as pd
-
 """
 Updates old records of roller when new roles are added.
 """

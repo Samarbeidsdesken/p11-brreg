@@ -1,8 +1,6 @@
 import psycopg2
 from dbconnect.dbconfig import load_config
 
-import pandas as pd
-
 """
 New audits are inserted in the table database.tilsyn. The table is a copy of the data
 provided by data.mattilsynet.no/smilefjes-tilsyn.csv. Same column headers. 

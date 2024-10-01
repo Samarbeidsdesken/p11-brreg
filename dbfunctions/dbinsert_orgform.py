@@ -1,8 +1,6 @@
 import psycopg2
 from dbconnect.dbconfig import load_config
 
-import pandas as pd
-
 
 def insert_orgform(enheter, table='orgform'):
     """Insert a address into the table forretningsadresse"""

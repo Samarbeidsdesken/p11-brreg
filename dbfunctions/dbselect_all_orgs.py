@@ -1,8 +1,6 @@
 import psycopg2
 from dbconnect.dbconfig import load_config
 
-import pandas as pd
-
 
 def select_orgs(table='enheter'):
     """Get all companies in database"""
