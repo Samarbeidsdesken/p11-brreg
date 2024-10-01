@@ -39,7 +39,7 @@ def create_table_konkurser():
         """
         CREATE TABLE konkurser(
             navn VARCHAR(255),
-            orgnr VARCHAR(255) PRIMARY KEY,
+            orgnr VARCHAR(255),
             dato DATE,
             type VARCHAR(255),
             url VARCHAR(255),
@@ -94,7 +94,7 @@ def create_table_forretningsadresse():
 
         """
         CREATE TABLE forretningsadresse (
-            orgnr VARCHAR(255) PRIMARY KEY,
+            orgnr VARCHAR(255),
             forretningsadresse_adresse VARCHAR(255),
             forretningsadresse_postnummer CHAR(4),
             forretningsadresse_kommunenummer CHAR(4),
@@ -124,7 +124,7 @@ def create_table_orgform():
 
         """
         CREATE TABLE orgform (
-            orgnr VARCHAR(255) PRIMARY KEY,
+            orgnr VARCHAR(255),
             orgform_kode VARCHAR(50),
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
