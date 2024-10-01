@@ -18,7 +18,7 @@ def get_path():
             path = ''
         else:
             # it is cron
-            path = '/home/ubuntu/projects/p03-tilsynsbot/'
+            path = '/home/ubuntu/projects/p11-brreg/'
     else:
         
         if os.isatty(sys.stdout.fileno()):
@@ -26,6 +26,6 @@ def get_path():
             path = ''
         else:
             # it is cron
-            path = '/Users/oivind/Library/CloudStorage/OneDrive-Deltebiblioteker–UniversityofBergen/Samarbeidsdesken - Dokumenter/Prosjekter/Mulige prosjekter/brreg/'
+            path = '/Users/oivind/Library/CloudStorage/OneDrive-Deltebiblioteker–UniversityofBergen/Samarbeidsdesken - Dokumenter/Prosjekter/p11-brreg/'
             
     return path
