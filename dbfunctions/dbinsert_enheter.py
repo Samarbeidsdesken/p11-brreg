@@ -33,7 +33,7 @@ def insert_company(enheter, table='enheter'):
         print(error)
 
     finally:
-        print('The data records are inserted')
+        pass
 
 
 if __name__ == '__main__':

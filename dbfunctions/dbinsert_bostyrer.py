@@ -33,7 +33,7 @@ def insert_bostyrer(bostyrer, table = 'bostyrer'):
         print(error)
 
     finally: 
-        print('The data records are inserted')
+        pass
     
 if __name__ == '__main__':
     pass

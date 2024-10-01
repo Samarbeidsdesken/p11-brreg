@@ -22,10 +22,10 @@ def insert_address(enheter, table='forretningsadresse'):
                 conn.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+        print('insert_address: ' + str(error))
 
     finally:
-        print('The data records are inserted')
+        pass
 
 
 if __name__ == '__main__':

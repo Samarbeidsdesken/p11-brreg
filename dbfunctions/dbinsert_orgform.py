@@ -22,10 +22,10 @@ def insert_orgform(enheter, table='orgform'):
                 conn.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+        print('inserg orgform: '+ str(error))
 
     finally:
-        print('The data records are inserted')
+        pass
 
 
 if __name__ == '__main__':

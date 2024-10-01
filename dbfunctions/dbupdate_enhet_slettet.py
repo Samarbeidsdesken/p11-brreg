@@ -14,24 +14,24 @@ def update_enhet_slettet(orgnr):
 
     # Define the SQL update query
     sql = """
-        UPDATE enhet
+        UPDATE enheter
         SET is_active = false
-        WHERE orgnr = %s;
-        """
+        WHERE orgnr = '{}';
+        """.format(orgnr)
 
     try:
         with psycopg2.connect(**config) as conn:
             with conn.cursor() as cur:
                 # cur.executemany(sql, tilsyn)
-                cur.execute(sql, orgnr)
+                cur.execute(sql)
 
                 conn.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+        print('update_enhet_slettet: ' + str(error))
 
     finally:
-        print('The data records are inserted')
+        pass
 
 
 if __name__ == '__main__':

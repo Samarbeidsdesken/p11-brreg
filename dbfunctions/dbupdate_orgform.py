@@ -16,9 +16,9 @@ def update_orgform(data):
     sql = """
         UPDATE orgform
         SET is_current = false, 
-            end_date = %s
-        WHERE orgnr = %s AND is_current = true;
-        """
+            end_date = '{}'
+        WHERE orgnr = '{}' AND is_current = true;
+        """.format(data[0], data[1])
 
     try:
         with psycopg2.connect(**config) as conn:
@@ -32,7 +32,7 @@ def update_orgform(data):
         print(error)
 
     finally:
-        print('The data records are inserted')
+        pass
 
 
 if __name__ == '__main__':

@@ -32,7 +32,7 @@ def insert_roller_update(data):
         print(error)
 
     finally:
-        print('The data records are inserted')
+        pass
 
 
 if __name__ == '__main__':

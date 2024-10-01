@@ -14,25 +14,28 @@ def update_addresse(data):
 
     # Define the SQL update query
     sql = """
-        UPDATE forretningsadresse
-        SET is_current = false, 
-            end_date = %s
-        WHERE orgnr = %s AND is_current = true;
-        """
+        UPDATE 
+            forretningsadresse
+        SET    
+            is_current = false, 
+            end_date = '{}'
+        WHERE 
+            orgnr = '{}' AND is_current = true;
+        """.format(data[0], data[1])
 
     try:
         with psycopg2.connect(**config) as conn:
             with conn.cursor() as cur:
                 # cur.executemany(sql, tilsyn)
-                cur.execute(sql, data)
+                cur.execute(sql)
 
                 conn.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
+        print('update_addresse: ' + str(error))
 
     finally:
-        print('The data records are inserted')
+        pass
 
 
 if __name__ == '__main__':

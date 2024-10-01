@@ -20,7 +20,7 @@ def select_address(orgnr, table='forretningsadresse'):
             with conn.cursor() as cur:
                 # cur.executemany(sql, tilsyn)
                 cur.execute(sql)
-
+                
                 # return all results from the query
                 return cur.fetchall()[0]
 

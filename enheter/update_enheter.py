@@ -18,8 +18,6 @@ def get_updated_companies(lag=1):
     url = """https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato={yesterday}T00:00:00.000Z""".format(
         yesterday=yesterday)
 
-    print(url)
-
     try:
         req = requests.get(url)
         req.raise_for_status()  # Raises an HTTPError for bad responses (4xx or 5xx)

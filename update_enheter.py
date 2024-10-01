@@ -27,6 +27,8 @@ from datetime import datetime
 # Get companies where there has been changes. 
 updated_orgs = get_updated_companies()
 
+
+
 # Collect the companies where there has been changes
 if updated_orgs:
     updates = {}
@@ -36,70 +38,75 @@ if updated_orgs:
         else:
             updates[elem['endringstype']] = [elem['organisasjonsnummer']]
 
+    
+    # Loop through all new companies, and insert the 
+    # data to the database
+    if 'Ny' in updates.keys():
+        for ny in updates['Ny']:
 
-# Loop through all new companies, and insert the 
-# data to the database
-if 'Ny' in updates.keys():
-    for ny in updates['Ny']:
-        dictdata = get_company(ny)
+            dictdata = get_company(ny)
 
-        enhet = (
-            dictdata['organisasjonsnummer'],
-            dictdata['navn'],
-            dictdata['registreringsdatoEnhetsregisteret'],
-            dictdata['stiftelsesdato'],
-            dictdata['maalform']
-        )
+            enhet = (
+                dictdata['organisasjonsnummer'],
+                dictdata['navn'],
+                dictdata['registreringsdatoEnhetsregisteret'],
+                dictdata['stiftelsesdato'],
+                dictdata['maalform']
+            )
 
-        insert_company([enhet])
+            insert_company([enhet])
 
-        forretningsadresse = toolbox.parse_address(dictdata)
+            forretningsadresse = toolbox.parse_address(dictdata)
 
-        insert_address([forretningsadresse])
+            insert_address([forretningsadresse])
 
-        orgform = (
-            dictdata['organisasjonsnummer'],
-            dictdata['organisasjonsform']['kode'],
-        )
+            orgform = (
+                dictdata['organisasjonsnummer'],
+                dictdata['organisasjonsform']['kode'],
+            )
 
-        insert_orgform([orgform])
+            insert_orgform([orgform])
 
-# Loop through all deleted companies, and set is_active as false. 
-if 'Sletting' in updates.keys():
-    for orgnr in updates['Sletting']:
-        update_enhet_slettet(orgnr)
+    # Loop through all deleted companies, and set is_active as false. 
+    if 'Sletting' in updates.keys():
+        for orgnr in updates['Sletting']:
+            update_enhet_slettet(orgnr)
 
-# Loop through all companies where there has been changes. The code 
-# does not record all types of changes. Only changes in address and 
-# company code
+    # Loop through all companies where there has been changes. The code 
+    # does not record all types of changes. Only changes in address and 
+    # company code
 
-if 'Endring' in updates.keys():
-    for orgnr in updates['Endring']:
+    if 'Endring' in updates.keys():
+        for orgnr in updates['Endring']:
+            """
+            GET THE ADDRESS OF CURRENT COMPANY AND CHECK IF IT IS THE SAME AS THE REGISTERED ONE
+            """
+            registered_address = select_address(orgnr)
+            
+            dictdata = get_company(orgnr)
+            
+            new_address = toolbox.parse_address(dictdata)
 
-        """
-        GET THE ADDRESS OF CURRENT COMPANY AND CHECK IF IT IS THE SAME AS THE REGISTERED ONE
-        """
-        registered_address = select_address(orgnr)
-        dictdata = get_company(orgnr)
+            if registered_address != new_address:
+                end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
+                
+                
+                update_addresse((end_date, orgnr))
+                insert_address([new_address])
+                
 
-        new_address = toolbox.parse_address(dictdata)
+            """
+            GET THE COMPANY CODE OF THE CURRENT COMPANY AND CHECK IF ITS THE SAME
+            """
 
-        if registered_address != new_address:
-            end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
-            update_addresse((end_date, orgnr))
-            insert_address([new_address])
+            registered_orgform = select_orgform(orgnr)
+            new_orgform = (
+                dictdata['organisasjonsnummer'],
+                dictdata['organisasjonsform']['kode'],
+            )
 
-        """
-        GET THE COMPANY CODE OF THE CURRENT COMPANY AND CHECK IF ITS THE SAME
-        """
-
-        registered_orgform = select_orgform(orgnr)
-        new_orgform = (
-            dictdata['organisasjonsnummer'],
-            dictdata['organisasjonsform']['kode'],
-        )
-
-        if registered_orgform == new_orgform:
-            end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
-            update_orgform((end_date, orgnr))
-            insert_orgform([new_orgform])
+            if registered_orgform != new_orgform:
+                end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
+                
+                update_orgform((end_date, orgnr))
+                insert_orgform([new_orgform])
