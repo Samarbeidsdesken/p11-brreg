@@ -7,6 +7,8 @@ def load_config(section='postgresql'):
     
     path = get_path()
     
+    print(path)
+    
     filename = path + 'secrets/database.ini'
     
     #with open('secrets/path_databaseini.txt') as f:
