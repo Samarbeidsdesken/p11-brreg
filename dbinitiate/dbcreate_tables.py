@@ -155,7 +155,6 @@ def create_table_roller():
             id INTEGER NOT NULL DEFAULT 0,
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            start_date DATE -- End date is NULL if this is the current role list,
             end_date DATE -- End date is NULL if this is the current role list,
             CONSTRAINT pk_roller_orgnr_id PRIMARY KEY (orgnr, id) -- Named composite primary key
 
