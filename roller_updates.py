@@ -66,7 +66,6 @@ for org in updated_orgs:
                 try:
                     end_time = datetime.strptime(
                         org['time'], '%Y-%m-%dT%H:%M:%S.%fZ')
-                    print(data)
                     insert_roller_update((end_time, orgnr))
                     insert_roller(data)
                 except:
