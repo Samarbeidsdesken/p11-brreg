@@ -152,12 +152,11 @@ def create_table_roller():
         CREATE TABLE roller (
             orgnr character varying(255) NOT NULL,
             roller jsonb NOT NULL,
-            id INTEGER NOT NULL DEFAULT 0,
+            id INTEGER NOT NULL DEFAULT 2858588, -- default is set to the change id value from which the tracking started
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             end_date DATE -- End date is NULL if this is the current role list,
             CONSTRAINT pk_roller_orgnr_id PRIMARY KEY (orgnr, id) -- Named composite primary key
-
             );
         """
     ),

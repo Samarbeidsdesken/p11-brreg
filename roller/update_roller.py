@@ -9,12 +9,16 @@ from datetime import datetime, timedelta
 # https://data.brreg.no/enhetsregisteret/api/enheter/{enhetorgnr}/roller
 
 
-def get_updated_roles(lag=1):
+def get_updated_roles(maxid):
 
-    yesterday = datetime.now() - timedelta(lag)
-    yesterday = datetime.strftime(yesterday, format='%Y-%m-%d')
-    url = """https://data.brreg.no/enhetsregisteret/api/oppdateringer/roller?size=10000&afterTime={yesterday}T00:00:00.000Z""".format(
-        yesterday=yesterday)
+    #yesterday = datetime.now() - timedelta(lag)
+    #yesterday = datetime.strftime(yesterday, format='%Y-%m-%d')
+    #url = """https://data.brreg.no/enhetsregisteret/api/oppdateringer/roller?size=10000&afterTime={yesterday}T00:00:00.000Z""".format(
+    #    yesterday=yesterday)
+   # 
+    url = """
+    https://data.brreg.no/enhetsregisteret/api/oppdateringer/roller?size=10000&afterId={maxid}
+    """.format(maxid = maxid)
 
     try:
         req = requests.get(url)

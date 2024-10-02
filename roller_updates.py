@@ -7,12 +7,17 @@ from roller import roller
 from dbfunctions.dbinsert_roller import insert_roller
 from dbfunctions.dbupdate_roller import insert_roller_update
 
+# Functions for selecting from database
+from dbfunctions.dbselect_roller_maxid import select_roller_maxid
+
 # Others
 import json
 from datetime import datetime
 
+maxid = select_roller_maxid()
+
 # Get companies where the roles have been updated
-updated_orgs = update_roller.get_updated_roles()
+updated_orgs = update_roller.get_updated_roles(maxid)
 
 # Create a set of unique orgs
 # One company can appear multiple times
@@ -43,6 +48,8 @@ changeids = set()
 for key in changes:
     changeids.add(max(changes[key]))
     
+print(len(changes))
+"""
 
 # Loop through all changes
 for org in updated_orgs:
@@ -70,3 +77,4 @@ for org in updated_orgs:
                     insert_roller(data)
                 except:
                     print(f'Failed to update {orgnr}')
+"""
