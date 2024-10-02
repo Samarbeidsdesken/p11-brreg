@@ -21,7 +21,8 @@ def process_org(org):
         enhet_roller = roller.get_roles(response_dict)
 
         if enhet_roller:
-            data = [(org, json.dumps(enhet_roller))]
+            id = 0
+            data = [(org, id, json.dumps(enhet_roller))]
             insert_roller(data)
 
 
