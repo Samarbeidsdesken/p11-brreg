@@ -413,7 +413,7 @@
 
             }, {
 
-                # REVISOR
+                # REGNSKAPSFØRER
 
                     'type': {
                         'kode': 'REGN',
