@@ -16,7 +16,7 @@ def insert_roller(roller, table='roller'):
 
     template = ','.join(['%s'] * len(roller))
     sql = """
-    INSERT INTO {} (orgnr, roller) values {} ON CONFLICT DO NOTHING;
+    INSERT INTO {} (orgnr, id, roller) values {} ON CONFLICT DO NOTHING;
     """.format(table, template)
 
     try:
