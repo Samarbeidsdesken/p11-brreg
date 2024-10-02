@@ -48,8 +48,7 @@ changeids = set()
 for key in changes:
     changeids.add(max(changes[key]))
     
-print(len(changes))
-"""
+
 
 # Loop through all changes
 for org in updated_orgs:
@@ -77,4 +76,3 @@ for org in updated_orgs:
                     insert_roller(data)
                 except:
                     print(f'Failed to update {orgnr}')
-"""
