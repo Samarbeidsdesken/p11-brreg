@@ -4,6 +4,7 @@ import numpy as np
 from dbfunctions.dbinsert_enheter import insert_company
 from dbfunctions.dbinsert_forretningsadresse import insert_address
 from dbfunctions.dbinsert_orgform import insert_orgform
+from dbfunctions.dbinsert_nace import insert_nace
 from datetime import datetime
 
 import concurrent.futures
@@ -38,7 +39,9 @@ df.rename(
         'forretningsadresse.kommunenummer': 'forretningsadresse_kommunenummer',
         'forretningsadresse.land': 'forretningsadresse_land',
         'forretningsadresse.landkode': 'forretningsadresse_landkode',
-        'organisasjonsform.kode': 'orgform_kode'
+        'organisasjonsform.kode': 'orgform_kode',
+        'naeringskode1.kode': 'naeringskode1',
+        'naeringskode2.kode': 'naeringskode2'
     }, inplace=True)
 
 
@@ -66,6 +69,12 @@ forretningsadresse = forretningsadresse.replace({np.nan: None})
 # ------------------- #
 
 orgform = df[['organisasjonsnummer', 'orgform_kode']]
+
+# ------------- #
+# INDUSTRY CODE #
+# ------------- #
+
+nace = df[['organisasjonsnummer', 'naeringskode1', 'naeringskode2']]
 
 
 # ------------------ #
@@ -100,6 +109,8 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
         insert_dataset, insert_address, forretningsadresse)
     future_orgform = executor.submit(
         insert_dataset, insert_orgform, orgform)
+    future_orgform = executor.submit(
+        insert_dataset, insert_nace, nace)
 
     # Optionally, wait for all to finish (this is useful for error handling/logging)
     concurrent.futures.wait(

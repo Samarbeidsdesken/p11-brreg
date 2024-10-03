@@ -102,7 +102,8 @@ def create_table_forretningsadresse():
             forretningsadresse_landkode VARCHAR(10),
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            end_date DATE -- End date is NULL if this is the current role list
+            end_date DATE -- End date is NULL if this is the current role list,
+            CONSTRAINT pk_adresse_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
             )
         """
     ),
@@ -128,7 +129,8 @@ def create_table_orgform():
             orgform_kode VARCHAR(50),
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            end_date DATE -- End date is NULL if this is the current role list
+            end_date DATE -- End date is NULL if this is the current role list,
+            CONSTRAINT pk_orgform_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
             )
         """
     ),
@@ -157,6 +159,61 @@ def create_table_roller():
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             end_date DATE -- End date is NULL if this is the current role list,
             CONSTRAINT pk_roller_orgnr_id PRIMARY KEY (orgnr, id) -- Named composite primary key
+            );
+        """
+    ),
+
+    try:
+        config = load_config()
+        with psycopg2.connect(**config) as conn:
+            with conn.cursor() as cur:
+                # execute the CREATE TABLE statement
+                for command in commands:
+                    cur.execute(command)
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(error)
+
+
+def create_table_company_contacts():
+    """ Create tables in the PostgreSQL database"""
+    commands = (
+
+        """
+        CREATE TABLE company_contacts (
+            orgnr character varying(255) NOT NULL,
+            email character varying(255) NOT NULL,
+            phone character varying(255) NOT NULL,
+            is_current BOOLEAN DEFAULT TRUE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            end_date DATE -- End date is NULL if this is the current role list,
+            CONSTRAINT pk_company_contact_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
+            );
+        """
+    ),
+
+    try:
+        config = load_config()
+        with psycopg2.connect(**config) as conn:
+            with conn.cursor() as cur:
+                # execute the CREATE TABLE statement
+                for command in commands:
+                    cur.execute(command)
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(error)
+        
+def create_table_company_nace():
+    """ Create tables in the PostgreSQL database"""
+    commands = (
+
+        """
+        CREATE TABLE company_nace (
+            orgnr character varying(255) NOT NULL,
+            naeringskode1 varying(10) NOT NULL,
+            naeringskode2 varying(10) NOT NULL,
+            is_current BOOLEAN DEFAULT TRUE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            end_date DATE -- End date is NULL if this is the current role list,
+            CONSTRAINT pk_company_nace_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
             );
         """
     ),
