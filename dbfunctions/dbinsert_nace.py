@@ -8,7 +8,7 @@ def insert_nace(enheter, table='company_nace'):
 
     template = ','.join(['%s'] * len(enheter))
     sql = """
-    INSERT INTO {} (orgnr, naeringskode1, naeringskode2) values {} ON CONFLICT DO NOTHING;
+    INSERT INTO {} (orgnr, naeringskode1) values {} ON CONFLICT DO NOTHING;
     """.format(table, template)
 
     try:

@@ -2,7 +2,7 @@ import psycopg2
 from dbconnect.dbconfig import load_config
 
 
-def select_orgform(orgnr, table='employees'):
+def select_employees(orgnr, table='employees'):
     """Get all companies in database"""
     config = load_config()
 

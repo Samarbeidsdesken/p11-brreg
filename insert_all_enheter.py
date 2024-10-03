@@ -76,7 +76,7 @@ orgform = df[['organisasjonsnummer', 'orgform_kode']]
 # INDUSTRY CODE #
 # ------------- #
 
-nace = df[['organisasjonsnummer', 'naeringskode1', 'naeringskode2', 'naeringskode3']]
+nace = df[['organisasjonsnummer', 'naeringskode1']]
 
 # --------- #
 # EMPLOYEES #

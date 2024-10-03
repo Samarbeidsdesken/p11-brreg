@@ -2,12 +2,12 @@ import psycopg2
 from dbconnect.dbconfig import load_config
 
 
-def select_orgform(orgnr, table='company_nace'):
+def select_nace(orgnr, table='company_nace'):
     """Get all companies in database"""
     config = load_config()
 
     sql = """
-    SELECT orgnr, naeringskode1, naeringskode2, naeringskode3 FROM {table} WHERE orgnr = '{orgnr}' AND is_current = true;
+    SELECT orgnr, naeringskode1 FROM {table} WHERE orgnr = '{orgnr}' AND is_current = true;
     """.format(
         table=table,
         orgnr=orgnr
