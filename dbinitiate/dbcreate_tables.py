@@ -70,6 +70,9 @@ def create_table_enheter():
             registreringsdatoenhetsregisteret DATE,
             stiftelsesdato DATE,            
             maalform VARCHAR(50),
+            frivillighetsregisteret BOOLEAN,
+            mvaregisteret BOOLEAN,
+            foretaksregisteret BOOLEAN,
             is_active BOOLEAN DEFAULT TRUE, -- Boolean to track if a company is active or deleted
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

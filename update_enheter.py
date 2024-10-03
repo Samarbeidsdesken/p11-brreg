@@ -51,7 +51,10 @@ if updated_orgs:
                 dictdata['navn'],
                 dictdata['registreringsdatoEnhetsregisteret'],
                 dictdata['stiftelsesdato'],
-                dictdata['maalform']
+                dictdata['maalform'],
+                dictdata['registrertIFrivillighetsregisteret'],
+                dictdata['registrertIMvaRegisteret'],
+                dictdata['registrertIForetaksregisteret']
             )
 
             insert_company([enhet])

@@ -16,7 +16,7 @@ def insert_company(enheter, table='enheter'):
 
     template = ','.join(['%s'] * len(enheter))
     sql = """
-    INSERT INTO {} (orgnr, navn, registreringsdatoenhetsregisteret, stiftelsesdato, maalform) values {} ON CONFLICT DO NOTHING;
+    INSERT INTO {} (orgnr, navn, registreringsdatoenhetsregisteret, stiftelsesdato, maalform, frivillighetsregisteret, mvaregisteret, foretaksregisteret) values {} ON CONFLICT DO NOTHING;
     """.format(table, template)
 
     try:
