@@ -69,6 +69,24 @@ def get_roles(response_dict):
                                 ]
                         else:
                             roller[rolle['type']['kode']] = person_dict
+                            
+                    if 'enhet' in rolle.keys():
+                        enhet_dict = {
+                            'orgnr': rolle['enhet']['organisasjonsnummer'],
+                            'navn': rolle['enhet']['navn']
+                        }
+                        
+                        if rolle['type']['kode'] in roller.keys():
+                            if isinstance(roller[rolle['type']['kode']], list):
+                                roller[rolle['type']['kode']].append(
+                                    enhet_dict)
+                            else:
+                                roller[rolle['type']['kode']] = [
+                                        roller[rolle['type']['kode']], enhet_dict
+                                    ]
+                        else:
+                            roller[rolle['type']['kode']] = enhet_dict
+                        
 
         return roller
 
