@@ -229,6 +229,33 @@ def create_table_company_nace():
     except (psycopg2.DatabaseError, Exception) as error:
         print(error)
 
+def create_table_employees():
+    """ Create tables in the PostgreSQL database"""
+    commands = (
+
+        """
+        CREATE TABLE employees (
+            orgnr character varying(255) NOT NULL,
+            employees INTEGER NOT NULL,
+            is_current BOOLEAN DEFAULT TRUE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            end_date DATE -- End date is NULL if this is the current role list,
+            CONSTRAINT pk_company_employees_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
+            );
+        """
+    ),
+
+    try:
+        config = load_config()
+        with psycopg2.connect(**config) as conn:
+            with conn.cursor() as cur:
+                # execute the CREATE TABLE statement
+                for command in commands:
+                    cur.execute(command)
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(error)
+
+
 
 if __name__ == '__main__':
     # create_tables()

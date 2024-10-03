@@ -5,6 +5,7 @@ from dbfunctions.dbinsert_enheter import insert_company
 from dbfunctions.dbinsert_forretningsadresse import insert_address
 from dbfunctions.dbinsert_orgform import insert_orgform
 from dbfunctions.dbinsert_nace import insert_nace
+from dbfunctions.dbinsert_employees import insert_employees
 from datetime import datetime
 
 import concurrent.futures
@@ -13,7 +14,7 @@ import concurrent.futures
 
 
 df = pd.read_csv('enheter/alle_enheter_300924.csv', delimiter=',', dtype={
-                 'forretningsadresse.kommunenummer': object, 'forretningsadresse.postnummer': object})
+                 'forretningsadresse.kommunenummer': object, 'forretningsadresse.postnummer': object, 'antallAnsatte': int})
 
 # Replace empty strings in date columns with NaN (equivalent to NULL)
 date_columns = ['registreringsdatoenhetsregisteret', 'stiftelsesdato', 'konkursdato',
@@ -77,6 +78,14 @@ orgform = df[['organisasjonsnummer', 'orgform_kode']]
 
 nace = df[['organisasjonsnummer', 'naeringskode1', 'naeringskode2', 'naeringskode3']]
 
+# --------- #
+# EMPLOYEES #
+# --------- #
+
+employees_filtered = df[df['harRegistrertAntallAnsatte'] == True]
+
+employees = employees_filtered[['organisasjonsnummer', 'antallAnsatte']]
+
 
 # ------------------ #
 # INSERT IN DATABASE #
@@ -112,6 +121,8 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
         insert_dataset, insert_orgform, orgform)
     future_orgform = executor.submit(
         insert_dataset, insert_nace, nace)
+    future_orgform = executor.submit(
+        insert_dataset, insert_employees, employees)
 
     # Optionally, wait for all to finish (this is useful for error handling/logging)
     concurrent.futures.wait(
