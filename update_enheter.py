@@ -93,7 +93,6 @@ if updated_orgs:
             if registered_address != new_address:
                 end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
                 
-                
                 update_addresse((end_date, orgnr))
                 insert_address([new_address])
                 
