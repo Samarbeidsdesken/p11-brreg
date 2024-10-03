@@ -41,7 +41,8 @@ df.rename(
         'forretningsadresse.landkode': 'forretningsadresse_landkode',
         'organisasjonsform.kode': 'orgform_kode',
         'naeringskode1.kode': 'naeringskode1',
-        'naeringskode2.kode': 'naeringskode2'
+        'naeringskode2.kode': 'naeringskode2',
+        'naeringskode3.kode': 'naeringskode3'
     }, inplace=True)
 
 
@@ -74,7 +75,7 @@ orgform = df[['organisasjonsnummer', 'orgform_kode']]
 # INDUSTRY CODE #
 # ------------- #
 
-nace = df[['organisasjonsnummer', 'naeringskode1', 'naeringskode2']]
+nace = df[['organisasjonsnummer', 'naeringskode1', 'naeringskode2', 'naeringskode3']]
 
 
 # ------------------ #

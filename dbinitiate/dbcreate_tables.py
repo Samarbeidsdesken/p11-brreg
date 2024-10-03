@@ -209,7 +209,8 @@ def create_table_company_nace():
         CREATE TABLE company_nace (
             orgnr character varying(255) NOT NULL,
             naeringskode1 varying(10) NOT NULL,
-            naeringskode2 varying(10) NOT NULL,
+            naeringskode2 varying(10),
+            naeringskode3 varying(10),
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             end_date DATE -- End date is NULL if this is the current role list,
