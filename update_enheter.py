@@ -24,6 +24,7 @@ from dbfunctions.dbselect_address import select_address
 from dbfunctions.dbselect_orgform import select_orgform
 from dbfunctions.dbselect_employees import select_employees
 from dbfunctions.dbselect_nace import select_nace
+from dbfunctions.dbselect_enheter_maxid import select_enheter_maxid
 
 # Toolbox functions
 from toolbox import toolbox
@@ -32,8 +33,10 @@ from toolbox import toolbox
 import pandas as pd
 from datetime import datetime
 
+enheter_maxid = select_enheter_maxid()
+
 # Get companies where there has been changes. 
-updated_orgs = get_updated_companies()
+updated_orgs = get_updated_companies(enheter_maxid)
 
 
 

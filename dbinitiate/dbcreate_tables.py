@@ -59,6 +59,28 @@ def create_table_konkurser():
         print(error)
 
 
+def create_table_enheter_oppdateringsid():
+    """ Create tables in the PostgreSQL database"""
+    commands = (
+
+        """
+        CREATE TABLE enheter_oppdateringsid (
+            id DEFAULT 19785563 PRIMARY KEY,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            )
+        """
+    ),
+
+    try:
+        config = load_config()
+        with psycopg2.connect(**config) as conn:
+            with conn.cursor() as cur:
+                # execute the CREATE TABLE statement
+                for command in commands:
+                    cur.execute(command)
+    except (psycopg2.DatabaseError, Exception) as error:
+        print(error)
+
 def create_table_enheter():
     """ Create tables in the PostgreSQL database"""
     commands = (

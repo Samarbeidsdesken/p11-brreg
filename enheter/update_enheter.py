@@ -10,13 +10,15 @@ from datetime import datetime, timedelta
 # https://data.brreg.no/enhetsregisteret/api/enheter/{enhetorgnr}/roller
 
 
-def get_updated_companies(lag=1):
+def get_updated_companies(id):
 
     yesterday = datetime.now() - timedelta(lag)
     yesterday = datetime.strftime(yesterday, format='%Y-%m-%d')
 
-    url = """https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato={yesterday}T00:00:00.000Z""".format(
-        yesterday=yesterday)
+    #url = """https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato={yesterday}T00:00:00.000Z""".format(
+    #    yesterday=yesterday)
+    
+    url = """https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?oppdateringsid={id}""".format(id = id)
 
     try:
         req = requests.get(url)
