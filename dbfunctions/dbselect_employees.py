@@ -24,9 +24,9 @@ def select_employees(orgnr, table='employees'):
                 if len(result) == 0:
                     return None
                 elif len(result) == 1:
-                    return cur.fetchall()[0]
+                    return result[0]
                 else:
-                    return cur.fetchall()
+                    return result
 
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)

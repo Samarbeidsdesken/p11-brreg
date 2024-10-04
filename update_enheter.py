@@ -64,25 +64,25 @@ if updated_orgs:
                 None #dictdata['konkursdato']
             )
 
-            insert_company([enhet])
+            #insert_company([enhet])
 
             forretningsadresse = toolbox.parse_address(dictdata)
 
-            insert_address([forretningsadresse])
+            #insert_address([forretningsadresse])
 
             orgform = (
                 dictdata['organisasjonsnummer'],
                 dictdata['organisasjonsform']['kode'],
             )
 
-            insert_orgform([orgform])
+            #insert_orgform([orgform])
             
             nace = (
                 dictdata['organisasjonsnummer'],
                 dictdata['naeringskode1']['kode']
             )
             
-            insert_nace(nace)
+            #insert_nace(nace)
             
             if dictdata['harRegistrertAntallAnsatte'] == True:
                 
@@ -91,13 +91,14 @@ if updated_orgs:
                     dictdata['employees']
                 )
 
-                insert_employees([employees])
+                #insert_employees([employees])
                 
            
     # Loop through all deleted companies, and set is_active as false. 
     if 'Sletting' in updates.keys():
         for orgnr in updates['Sletting']:
-            update_enhet_slettet(orgnr)
+            pass
+            #update_enhet_slettet(orgnr)
 
     # Loop through all companies where there has been changes. The code 
     # does not record all types of changes. Only changes in address and 
@@ -108,18 +109,18 @@ if updated_orgs:
             """
             GET THE ADDRESS OF CURRENT COMPANY AND CHECK IF IT IS THE SAME AS THE REGISTERED ONE
             """
+            
             registered_address = select_address(orgnr)
             
             dictdata = get_company(orgnr)
-            
             
             new_address = toolbox.parse_address(dictdata)
 
             if registered_address != new_address:
                 end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
                 
-                #update_addresse((end_date, orgnr))
-                #insert_address([new_address])
+                update_addresse((end_date, orgnr))
+                insert_address([new_address])
                 
 
             """
@@ -135,8 +136,8 @@ if updated_orgs:
             if registered_orgform != new_orgform:
                 end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
                 
-                #update_orgform((end_date, orgnr))
-                #insert_orgform([new_orgform])
+                update_orgform((end_date, orgnr))
+                insert_orgform([new_orgform])
                 
             """
             GET THE NACE CODE OF THE CURRENT COMPANY AND CHECK IF ITS THE SAME
@@ -151,20 +152,20 @@ if updated_orgs:
             if registered_nace != new_nace:
                 end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
                 
-                #update_nace((end_date, orgnr))
-                #insert_nace([new_orgform])
+                update_nace((end_date, orgnr))
+                insert_nace([new_nace])
                 
             """
             GET NUMBER OF EMPLOYEES AND CHECK IF ITS THE SAME
             """
             
-            if dictdata['harRegistrertAntallAnsatte'] == True:
+            if dictdata['harRegistrertAntallAnsatte'] == True and 'antallAnsatte' in dictdata.keys():
                 
                 registered_employees = select_employees(orgnr)
                 
                 new_employees = (
                     dictdata['organisasjonsnummer'],
-                    dictdata['employees']
+                    dictdata['antallAnsatte']
                 )
 
                 # Is none if employers are not registered
@@ -177,6 +178,7 @@ if updated_orgs:
                         update_employees((end_date, orgnr))
                         insert_employees([new_employees])
                 else: 
+                    pass
                     insert_employees([new_employees])
                     
             """

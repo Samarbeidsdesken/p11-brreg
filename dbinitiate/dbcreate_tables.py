@@ -214,8 +214,7 @@ def create_table_company_nace():
             naeringskode1 character varying(255) NOT NULL,
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            end_date DATE, -- End date is NULL if this is the current role list,
-            CONSTRAINT pk_company_nace_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
+            end_date DATE -- End date is NULL if this is the current role list
             );
         """
     ),
@@ -240,8 +239,7 @@ def create_table_employees():
             employees INTEGER NOT NULL,
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            end_date DATE, -- End date is NULL if this is the current role list
-            CONSTRAINT pk_company_employees_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
+            end_date DATE -- End date is NULL if this is the current role list
             );
         """
     ),
