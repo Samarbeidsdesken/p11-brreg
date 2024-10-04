@@ -17,7 +17,7 @@ def get_updated_roles(maxid):
     #    yesterday=yesterday)
    # 
     url = """
-    https://data.brreg.no/enhetsregisteret/api/oppdateringer/roller?size=10000&afterId={maxid}
+    https://data.brreg.no/enhetsregisteret/api/oppdateringer/roller?size=10000&afterId={maxid}&size=10000
     """.format(maxid = maxid)
 
     try:
