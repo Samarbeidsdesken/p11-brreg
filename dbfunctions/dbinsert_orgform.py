@@ -1,8 +1,9 @@
 import psycopg2
 from dbconnect.dbconfig import load_config
+from dbfunctions.dbinsert_enheter_oppdateringsid import insert_enheter_oppdateringsid
 
 
-def insert_orgform(enheter, table='orgform'):
+def insert_orgform(enheter, id, table='orgform'):
     """Insert a address into the table forretningsadresse"""
     config = load_config()
 
@@ -18,8 +19,13 @@ def insert_orgform(enheter, table='orgform'):
                 cur.execute(sql, enheter)
 
                 conn.commit()
+                
+        
+        insert_enheter_oppdateringsid(id, False)
+            
 
     except (Exception, psycopg2.DatabaseError) as error:
+        insert_enheter_oppdateringsid(id, failed=True)
         print('inserg orgform: '+ str(error))
 
     finally:

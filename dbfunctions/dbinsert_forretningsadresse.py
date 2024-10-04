@@ -1,8 +1,10 @@
 import psycopg2
 from dbconnect.dbconfig import load_config
+from dbfunctions.dbinsert_enheter_oppdateringsid import insert_enheter_oppdateringsid
 
 
-def insert_address(enheter, table='forretningsadresse'):
+
+def insert_address(enheter, id, table='forretningsadresse'):
     """Insert a address into the table forretningsadresse"""
     config = load_config()
 
@@ -18,9 +20,12 @@ def insert_address(enheter, table='forretningsadresse'):
                 cur.execute(sql, enheter)
 
                 conn.commit()
+                
+        insert_enheter_oppdateringsid(id, failed=False)
 
     except (Exception, psycopg2.DatabaseError) as error:
         print('insert_address: ' + str(error))
+        insert_enheter_oppdateringsid(id, failed=True)
 
     finally:
         pass

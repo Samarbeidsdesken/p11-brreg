@@ -1,8 +1,9 @@
 import psycopg2
 from dbconnect.dbconfig import load_config
+from dbfunctions.dbinsert_enheter_oppdateringsid import insert_enheter_oppdateringsid
 
 
-def insert_nace(enheter, table='company_nace'):
+def insert_nace(enheter, id, table='company_nace'):
     """Insert a address into the table forretningsadresse"""
     config = load_config()
 
@@ -18,10 +19,12 @@ def insert_nace(enheter, table='company_nace'):
                 cur.execute(sql, enheter)
 
                 conn.commit()
+                
+        insert_enheter_oppdateringsid(id, failed=False)
 
     except (Exception, psycopg2.DatabaseError) as error:
         print('inserg orgform: '+ str(error))
-
+        insert_enheter_oppdateringsid(id, failed=True)
     finally:
         pass
 

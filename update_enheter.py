@@ -43,12 +43,15 @@ updated_orgs = get_updated_companies(enheter_maxid)
 # Collect the companies where there has been changes
 if updated_orgs:
     updates = {}
+    oppdateringsid = {}
     for elem in updated_orgs['_embedded']['oppdaterteEnheter']:
         if elem['endringstype'] in updates.keys():
             updates[elem['endringstype']].append(elem['organisasjonsnummer'])
+            
         else:
             updates[elem['endringstype']] = [elem['organisasjonsnummer']]
 
+        oppdateringsid[elem['organisasjonsnummer']] = elem['oppdateringsid']
     
     # Loop through all new companies, and insert the 
     # data to the database
@@ -71,14 +74,14 @@ if updated_orgs:
 
             forretningsadresse = toolbox.parse_address(dictdata)
 
-            #insert_address([forretningsadresse])
+            #insert_address([forretningsadresse], oppdateringsid[ny])
 
             orgform = (
                 dictdata['organisasjonsnummer'],
                 dictdata['organisasjonsform']['kode'],
             )
 
-            #insert_orgform([orgform])
+            #insert_orgform([orgform], oppdateringsid[ny])
             
             nace = (
                 dictdata['organisasjonsnummer'],
@@ -94,7 +97,7 @@ if updated_orgs:
                     dictdata['employees']
                 )
 
-                #insert_employees([employees])
+                #insert_employees([employees], oppdateringsid[ny])
                 
            
     # Loop through all deleted companies, and set is_active as false. 
@@ -109,6 +112,8 @@ if updated_orgs:
 
     if 'Endring' in updates.keys():
         for orgnr in updates['Endring']:
+            
+            
             """
             GET THE ADDRESS OF CURRENT COMPANY AND CHECK IF IT IS THE SAME AS THE REGISTERED ONE
             """
@@ -123,7 +128,7 @@ if updated_orgs:
                 end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
                 
                 update_addresse((end_date, orgnr))
-                insert_address([new_address])
+                insert_address([new_address], oppdateringsid[orgnr])
                 
 
             """
@@ -140,23 +145,26 @@ if updated_orgs:
                 end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
                 
                 update_orgform((end_date, orgnr))
-                insert_orgform([new_orgform])
+                insert_orgform([new_orgform], oppdateringsid[orgnr])
                 
             """
             GET THE NACE CODE OF THE CURRENT COMPANY AND CHECK IF ITS THE SAME
             """
             
-            registered_nace = select_nace(orgnr)
-            new_nace = (
-                dictdata['organisasjonsnummer'],
-                dictdata['naeringskode1']['kode']
-            )
-
-            if registered_nace != new_nace:
-                end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
+            if 'naeringskode1' in dictdata.keys():
+            
+                registered_nace = select_nace(orgnr)
                 
-                update_nace((end_date, orgnr))
-                insert_nace([new_nace])
+                new_nace = (
+                    dictdata['organisasjonsnummer'],
+                    dictdata['naeringskode1']['kode']
+                )
+
+                if registered_nace != new_nace:
+                    end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
+                    
+                    update_nace((end_date, orgnr))
+                    insert_nace([new_nace], oppdateringsid[orgnr])
                 
             """
             GET NUMBER OF EMPLOYEES AND CHECK IF ITS THE SAME
@@ -179,10 +187,10 @@ if updated_orgs:
                         end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
                         
                         update_employees((end_date, orgnr))
-                        insert_employees([new_employees])
+                        insert_employees([new_employees], oppdateringsid[orgnr])
                 else: 
                     pass
-                    insert_employees([new_employees])
+                    insert_employees([new_employees], oppdateringsid[orgnr])
                     
             """
             CHECK BANKRUPTCY

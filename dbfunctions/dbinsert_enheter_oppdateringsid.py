@@ -10,19 +10,19 @@ the database ignores them (ON CONFLICT DO NOTHING).
 """
 
 
-def insert_enheter_maxid(id, table='enheter_oppdateringsid'):
+def insert_enheter_oppdateringsid(id, failed):
     """Insert a new rolle into the table roller"""
     config = load_config()
 
     sql = """
-    INSERT INTO enheter_oppdateringsid (id) values {id} ON CONFLICT DO NOTHING;
-    """.format(id = id)
+    INSERT INTO enheter_oppdateringsid (id, failed) values ({id}, {failed}) ON CONFLICT DO NOTHING;
+    """.format(id = id, failed = failed)
 
     try:
         with psycopg2.connect(**config) as conn:
             with conn.cursor() as cur:
                 # cur.executemany(sql, tilsyn)
-                cur.execute(sql, enheter)
+                cur.execute(sql)
 
                 conn.commit()
 

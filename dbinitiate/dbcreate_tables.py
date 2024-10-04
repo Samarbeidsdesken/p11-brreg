@@ -65,9 +65,10 @@ def create_table_enheter_oppdateringsid():
 
         """
         CREATE TABLE enheter_oppdateringsid (
-            id DEFAULT 19785563 PRIMARY KEY,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            )
+            id INTEGER DEFAULT 19785563 PRIMARY KEY,
+            failed BOOLEAN,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
         """
     ),
 
@@ -80,6 +81,8 @@ def create_table_enheter_oppdateringsid():
                     cur.execute(command)
     except (psycopg2.DatabaseError, Exception) as error:
         print(error)
+        
+
 
 def create_table_enheter():
     """ Create tables in the PostgreSQL database"""
