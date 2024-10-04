@@ -9,6 +9,7 @@ from dbfunctions.dbinsert_forretningsadresse import insert_address
 from dbfunctions.dbinsert_orgform import insert_orgform
 from dbfunctions.dbinsert_nace import insert_nace
 from dbfunctions.dbinsert_employees import insert_employees
+from dbfunctions.dbupdate_enhet_konkurs import update_enhet_konkurs
 
 # Functions for updating existing records in database
 from dbfunctions.dbupdate_enhet_slettet import update_enhet_slettet
@@ -59,9 +60,8 @@ if updated_orgs:
                 dictdata['registreringsdatoEnhetsregisteret'],
                 dictdata['stiftelsesdato'],
                 dictdata['maalform'],
-                dictdata['registrertIFrivillighetsregisteret'],
-                dictdata['registrertIMvaRegisteret'],
-                dictdata['registrertIForetaksregisteret']
+                None, #dictdata['konkurs'],
+                None #dictdata['konkursdato']
             )
 
             insert_company([enhet])
@@ -76,7 +76,24 @@ if updated_orgs:
             )
 
             insert_orgform([orgform])
+            
+            nace = (
+                dictdata['organisasjonsnummer'],
+                dictdata['naeringskode1']['kode']
+            )
+            
+            insert_nace(nace)
+            
+            if dictdata['harRegistrertAntallAnsatte'] == True:
+                
+                employees = (
+                    dictdata['organisasjonsnummer'],
+                    dictdata['employees']
+                )
 
+                insert_employees([employees])
+                
+           
     # Loop through all deleted companies, and set is_active as false. 
     if 'Sletting' in updates.keys():
         for orgnr in updates['Sletting']:
@@ -95,7 +112,6 @@ if updated_orgs:
             
             dictdata = get_company(orgnr)
             
-            print(dictdata)
             
             new_address = toolbox.parse_address(dictdata)
 
@@ -123,7 +139,7 @@ if updated_orgs:
                 #insert_orgform([new_orgform])
                 
             """
-            GET THE NACE CODE OF THE CURRENT COMAPMY AND CHECK IF ITS THE SAME
+            GET THE NACE CODE OF THE CURRENT COMPANY AND CHECK IF ITS THE SAME
             """
             
             registered_nace = select_nace(orgnr)
@@ -142,14 +158,36 @@ if updated_orgs:
             GET NUMBER OF EMPLOYEES AND CHECK IF ITS THE SAME
             """
             
-            registered_employees = select_employees(orgnr)
-            new_employees = (
-                dictdata['organisasjonsnummer'],
-                dictdata['employees']
-            )
-
-            if registered_employees != new_employees:
-                end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
+            if dictdata['harRegistrertAntallAnsatte'] == True:
                 
-                #update_employees((end_date, orgnr))
-                #insert_employees([new_orgform])
+                registered_employees = select_employees(orgnr)
+                
+                new_employees = (
+                    dictdata['organisasjonsnummer'],
+                    dictdata['employees']
+                )
+
+                # Is none if employers are not registered
+                if registered_employees:
+                    
+                    if registered_employees != new_employees:
+
+                        end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
+                        
+                        update_employees((end_date, orgnr))
+                        insert_employees([new_employees])
+                else: 
+                    insert_employees([new_employees])
+                    
+            """
+            CHECK BANKRUPTCY
+            """
+            if dictdata['konkurs'] == True:
+                konkurs = (dictdata['konkursdato'], orgnr)
+                update_enhet_konkurs(konkurs)
+                
+                
+            
+            
+            
+            

@@ -20,7 +20,13 @@ def select_nace(orgnr, table='company_nace'):
                 cur.execute(sql)
 
                 # return all results from the query
-                return cur.fetchall()[0]
+                result = cur.fetchall()
+                if len(result) == 0:
+                    return None
+                elif len(result) == 1:
+                    return cur.fetchall()[0]
+                else:
+                    return cur.fetchall()
 
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)

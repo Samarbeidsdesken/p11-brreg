@@ -70,9 +70,8 @@ def create_table_enheter():
             registreringsdatoenhetsregisteret DATE,
             stiftelsesdato DATE,            
             maalform VARCHAR(50),
-            frivillighetsregisteret BOOLEAN,
-            mvaregisteret BOOLEAN,
-            foretaksregisteret BOOLEAN,
+            konkurs BOOLEAN,
+            konkursdato DATE,
             is_active BOOLEAN DEFAULT TRUE, -- Boolean to track if a company is active or deleted
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -212,10 +211,10 @@ def create_table_company_nace():
         """
         CREATE TABLE company_nace (
             orgnr character varying(255) NOT NULL,
-            naeringskode1 varying(10) NOT NULL,
+            naeringskode1 character varying(255) NOT NULL,
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            end_date DATE -- End date is NULL if this is the current role list,
+            end_date DATE, -- End date is NULL if this is the current role list,
             CONSTRAINT pk_company_nace_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
             );
         """
@@ -241,7 +240,7 @@ def create_table_employees():
             employees INTEGER NOT NULL,
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            end_date DATE -- End date is NULL if this is the current role list,
+            end_date DATE, -- End date is NULL if this is the current role list
             CONSTRAINT pk_company_employees_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
             );
         """
@@ -256,6 +255,7 @@ def create_table_employees():
                     cur.execute(command)
     except (psycopg2.DatabaseError, Exception) as error:
         print(error)
+
 
 
 

@@ -48,11 +48,11 @@ df.rename(
 
 
 # ---------------------------------- #
-# STATIC INFORMATION ABOUT COMPANIES #
+# BASIC INFORMATION ABOUT COMPANIES #
 # ---------------------------------- #
 
 enheter = df[['organisasjonsnummer', 'navn',
-              'registreringsdatoenhetsregisteret', 'stiftelsesdato', 'maalform']]
+              'registreringsdatoenhetsregisteret', 'stiftelsesdato', 'maalform', 'konkurs', 'konkursdato']]
 
 enheter = enheter.replace({np.nan: None})
 
@@ -85,6 +85,7 @@ nace = df[['organisasjonsnummer', 'naeringskode1']]
 employees_filtered = df[df['harRegistrertAntallAnsatte'] == True]
 
 employees = employees_filtered[['organisasjonsnummer', 'antallAnsatte']]
+
 
 
 # ------------------ #
