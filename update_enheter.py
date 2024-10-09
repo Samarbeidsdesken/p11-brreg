@@ -129,16 +129,17 @@ if updated_orgs:
             update_enhet_slettet(orgnr, oppdateringsid[ny])
 
     # Loop through all companies where there has been changes. The code 
-    # does not record all types of changes. Only changes in address and 
-    # company code
+    # does not record all types of changes. Only changes in address,
+    # company code, industry code, number of employees, and if the company
+    # has gone bankrupt
 
     if 'Endring' in updates.keys():
         for orgnr in updates['Endring']:
             
             
-            """
-            GET THE ADDRESS OF CURRENT COMPANY AND CHECK IF IT IS THE SAME AS THE REGISTERED ONE
-            """
+            # ------------ #
+            # ADDRESS INFO #
+            # ------------ #
             
             registered_address = select_address(orgnr)
             
@@ -153,9 +154,9 @@ if updated_orgs:
                 insert_address([new_address], oppdateringsid[orgnr])
                 
 
-            """
-            GET THE COMPANY CODE OF THE CURRENT COMPANY AND CHECK IF ITS THE SAME
-            """
+            # ------------------- #
+            # ORGANISATIONAL CODE #
+            # ------------------- #
 
             registered_orgform = select_orgform(orgnr)
             new_orgform = (
@@ -169,9 +170,9 @@ if updated_orgs:
                 update_orgform((end_date, orgnr))
                 insert_orgform([new_orgform], oppdateringsid[orgnr])
                 
-            """
-            GET THE NACE CODE OF THE CURRENT COMPANY AND CHECK IF ITS THE SAME
-            """
+            # ------------- #
+            # INDUSTRY CODE #
+            # ------------- #
             
             if 'naeringskode1' in dictdata.keys():
             
@@ -188,9 +189,9 @@ if updated_orgs:
                     update_nace((end_date, orgnr))
                     insert_nace([new_nace], oppdateringsid[orgnr])
                 
-            """
-            GET NUMBER OF EMPLOYEES AND CHECK IF ITS THE SAME
-            """
+            # --------- #
+            # EMPLOYEES #
+            # --------- #
             
             if dictdata['harRegistrertAntallAnsatte'] == True and 'antallAnsatte' in dictdata.keys():
                 
