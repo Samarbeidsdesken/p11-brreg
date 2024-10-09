@@ -6,15 +6,19 @@ from dbfunctions.dbinsert_forretningsadresse import insert_address
 from dbfunctions.dbinsert_orgform import insert_orgform
 from dbfunctions.dbinsert_nace import insert_nace
 from dbfunctions.dbinsert_employees import insert_employees
+from dbfunctions.dbselect_all_orgs import select_orgs
 from datetime import datetime
 
 import concurrent.futures
 
 # from concurrent.futures import ThreadPoolExecutor, as_completed
 
+all_orgs = select_orgs()
+
+print(type(all_orgs))
 
 df = pd.read_csv('enheter/alle_enheter_091024.csv', delimiter=',', dtype={
-                 'forretningsadresse.kommunenummer': object, 'forretningsadresse.postnummer': object})
+                 'forretningsadresse.kommunenummer': object, 'forretningsadresse.postnummer': object, 'organisasjonsnummer': object})
 
 # Replace empty strings in date columns with NaN (equivalent to NULL)
 date_columns = ['registreringsdatoenhetsregisteret', 'stiftelsesdato', 'konkursdato',
@@ -43,6 +47,8 @@ df.rename(
         'naeringskode2.kode': 'naeringskode2',
         'naeringskode3.kode': 'naeringskode3'
     }, inplace=True)
+
+df = df[~df.organisasjonsnummer.isin(all_orgs)]
 
 
 # --------------------------------- #
@@ -89,8 +95,6 @@ employees = employees[employees['antallAnsatte'].notna()]
 employees['antallAnsatte'] = employees['antallAnsatte'].astype(int)
 employees['antallAnsatte'] = employees['antallAnsatte'].astype(str)
 
-print(employees)
-
 # ------------------ #
 # INSERT IN DATABASE #
 # ------------------ #
@@ -107,8 +111,6 @@ for row in orgform.head(1000).itertuples(name=None, index=False):
 
 """
 # Define a function to insert each dataset
-
-
 
 
 def insert_dataset(insert_function, dataset):
