@@ -14,7 +14,7 @@ import concurrent.futures
 
 
 df = pd.read_csv('enheter/alle_enheter_091024.csv', delimiter=',', dtype={
-                 'forretningsadresse.kommunenummer': object, 'forretningsadresse.postnummer': object, 'antallAnsatte': int})
+                 'forretningsadresse.kommunenummer': object, 'forretningsadresse.postnummer': object})
 
 # Replace empty strings in date columns with NaN (equivalent to NULL)
 date_columns = ['registreringsdatoenhetsregisteret', 'stiftelsesdato', 'konkursdato',
@@ -84,6 +84,7 @@ employees_filtered = df[df['harRegistrertAntallAnsatte'] == True]
 
 employees = employees_filtered[['organisasjonsnummer', 'antallAnsatte']]
 
+employees = employees[employees['antallAnsatte'].notna()]
 
 
 # ------------------ #
@@ -102,6 +103,7 @@ for row in orgform.head(1000).itertuples(name=None, index=False):
 
 """
 # Define a function to insert each dataset
+
 
 
 def insert_dataset(insert_function, dataset):
@@ -126,4 +128,3 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
     # Optionally, wait for all to finish (this is useful for error handling/logging)
     concurrent.futures.wait(
         [future_enheter, future_forr_adresse, future_orgform])
-
