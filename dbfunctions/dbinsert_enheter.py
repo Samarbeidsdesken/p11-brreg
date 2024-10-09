@@ -28,7 +28,8 @@ def insert_company(enheter, table='enheter', id = None):
 
                 conn.commit()
         
-        insert_enheter_oppdateringsid(id, failed=False)
+        if id:
+            insert_enheter_oppdateringsid(id, failed=False)
 
     except (Exception, psycopg2.DatabaseError) as error:
         if id:

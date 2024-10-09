@@ -45,9 +45,9 @@ df.rename(
     }, inplace=True)
 
 
-# ---------------------------------- #
+# --------------------------------- #
 # BASIC INFORMATION ABOUT COMPANIES #
-# ---------------------------------- #
+# --------------------------------- #
 
 enheter = df[['organisasjonsnummer', 'navn',
               'registreringsdatoenhetsregisteret', 'stiftelsesdato', 'maalform', 'konkurs', 'konkursdato']]

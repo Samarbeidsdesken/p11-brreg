@@ -1,12 +1,13 @@
 import psycopg2
 from dbconnect.dbconfig import load_config
+from dbfunctions.dbinsert_enheter_oppdateringsid import insert_enheter_oppdateringsid
 
 """
 Updates old records of roller when new roles are added.
 """
 
 
-def update_enhet_slettet(orgnr):
+def update_enhet_slettet(orgnr, id = None):
     """Insert a new rolle into the table roller"""
     config = load_config()
 
@@ -24,10 +25,15 @@ def update_enhet_slettet(orgnr):
                 cur.execute(sql)
 
                 conn.commit()
+        
+        if id:
+            insert_enheter_oppdateringsid(id, failed=False)
 
     except (Exception, psycopg2.DatabaseError) as error:
         print('update_enhet_slettet: ' + str(error))
-
+        if id:
+            insert_enheter_oppdateringsid(id, failed=True)
+            
     finally:
         pass
 
