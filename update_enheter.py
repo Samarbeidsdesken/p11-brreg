@@ -57,9 +57,14 @@ if updated_orgs:
     # data to the database
     if 'Ny' in updates.keys():
         for ny in updates['Ny']:
-
+            
+            # Collect information about the new company
             dictdata = get_company(ny)
 
+            # --------------------------------- #
+            # BASIC INFORMATION ABOUT COMPANIES #
+            # --------------------------------- #
+            
             enhet = (
                 dictdata['organisasjonsnummer'],
                 dictdata['navn'],
@@ -71,10 +76,20 @@ if updated_orgs:
             )
 
             insert_company([enhet], id = oppdateringsid[ny])
+            
+            # ------------ #
+            # ADDRESS INFO #
+            # ------------ #
+
 
             forretningsadresse = toolbox.parse_address(dictdata)
 
             insert_address([forretningsadresse], oppdateringsid[ny])
+
+            
+            # ------------------- #
+            # ORGANISATIONAL CODE #
+            # ------------------- #
 
             orgform = (
                 dictdata['organisasjonsnummer'],
@@ -83,12 +98,20 @@ if updated_orgs:
 
             insert_orgform([orgform], oppdateringsid[ny])
             
+            # ------------- #
+            # INDUSTRY CODE #
+            # ------------- #
+            
             nace = (
                 dictdata['organisasjonsnummer'],
                 dictdata['naeringskode1']['kode']
             )
             
             insert_nace(nace)
+            
+            # --------- #
+            # EMPLOYEES #
+            # --------- #
             
             if dictdata['harRegistrertAntallAnsatte'] == True:
                 
@@ -103,8 +126,7 @@ if updated_orgs:
     # Loop through all deleted companies, and set is_active as false. 
     if 'Sletting' in updates.keys():
         for orgnr in updates['Sletting']:
-            pass
-            #update_enhet_slettet(orgnr)
+            update_enhet_slettet(orgnr)
 
     # Loop through all companies where there has been changes. The code 
     # does not record all types of changes. Only changes in address and 
