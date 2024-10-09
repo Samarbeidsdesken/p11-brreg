@@ -13,7 +13,7 @@ import concurrent.futures
 # from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
-df = pd.read_csv('enheter/alle_enheter_300924.csv', delimiter=',', dtype={
+df = pd.read_csv('enheter/alle_enheter_091024.csv', delimiter=',', dtype={
                  'forretningsadresse.kommunenummer': object, 'forretningsadresse.postnummer': object, 'antallAnsatte': int})
 
 # Replace empty strings in date columns with NaN (equivalent to NULL)
