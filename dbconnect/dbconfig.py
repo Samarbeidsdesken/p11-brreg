@@ -3,11 +3,14 @@ import os
 import sys
 from toolbox.userpath import get_path
 
-def load_config(section='postgresql'):
+def load_config(section='postgresql', remote = False):
     
     path = get_path()
     
-    filename = path + 'secrets/database.ini'
+    if remote:
+        filename = path + 'secrets/database_remote.ini'
+    else:
+        filename = path + 'secrets/database.ini'
     
     #with open('secrets/path_databaseini.txt') as f:
     #    filename = ''.join([line for line in f])

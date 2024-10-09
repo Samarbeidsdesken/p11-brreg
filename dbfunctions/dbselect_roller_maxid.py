@@ -2,9 +2,9 @@ import psycopg2
 from dbconnect.dbconfig import load_config
 
 
-def select_roller_maxid(table='roller'):
+def select_roller_maxid(table='roller', remote = False):
     """Get all companies in database"""
-    config = load_config()
+    config = load_config(remote = remote)
 
     sql = """
     SELECT MAX(id) FROM {table};

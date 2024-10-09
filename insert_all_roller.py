@@ -7,7 +7,9 @@ import time
 import json
 import concurrent.futures
 
-all_orgs = select_orgs()
+all_orgs = select_orgs(remote = True)
+
+
 
 start_time = time.time()
 
@@ -23,7 +25,7 @@ def process_org(org):
         if enhet_roller:
             id = 0
             data = [(org, id, json.dumps(enhet_roller))]
-            insert_roller(data)
+            insert_roller(data, remote = True)
 
 
 # Multithreading setup
@@ -34,7 +36,6 @@ def process_all_orgs_multithreaded(all_orgs, max_workers=10):
 
         # Optionally, wait for all to complete
         concurrent.futures.wait(futures)
-
 
 """
 for org in all_orgs:
@@ -49,6 +50,7 @@ for org in all_orgs:
             data = [(org, json.dumps(enhet_roller))]
 
             insert_roller(data)
+            
 """
 
 # Call the multithreaded function

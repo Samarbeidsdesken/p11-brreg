@@ -2,9 +2,9 @@ import psycopg2
 from dbconnect.dbconfig import load_config
 
 
-def select_orgs(table='enheter'):
+def select_orgs(table='enheter', remote = False):
     """Get all companies in database"""
-    config = load_config()
+    config = load_config(remote = remote)
 
     sql = """
     SELECT orgnr from {table};

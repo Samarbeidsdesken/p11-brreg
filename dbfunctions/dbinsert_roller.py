@@ -10,9 +10,9 @@ the database ignores them (ON CONFLICT DO NOTHING).
 """
 
 
-def insert_roller(roller, table='roller'):
+def insert_roller(roller, table='roller', remote = False):
     """Insert a new rolle into the table roller"""
-    config = load_config()
+    config = load_config(remote = remote)
 
     template = ','.join(['%s'] * len(roller))
     sql = """
