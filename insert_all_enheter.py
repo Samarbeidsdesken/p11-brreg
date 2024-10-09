@@ -86,6 +86,10 @@ employees = employees_filtered[['organisasjonsnummer', 'antallAnsatte']]
 
 employees = employees[employees['antallAnsatte'].notna()]
 
+employees['antallAnsatte'] = employees['antallAnsatte'].astype(int)
+employees['antallAnsatte'] = employees['antallAnsatte'].astype(str)
+
+print(employees)
 
 # ------------------ #
 # INSERT IN DATABASE #
@@ -103,6 +107,7 @@ for row in orgform.head(1000).itertuples(name=None, index=False):
 
 """
 # Define a function to insert each dataset
+
 
 
 
