@@ -30,8 +30,6 @@ df = df.replace({np.nan: None})
 
 pd.options.display.float_format = '{:,.0f}'.format
 
-print(df.columns)
-
 df.rename(
     columns={
         # 'organisasjonsform.kode': 'organisasjonsform_kode',
@@ -129,35 +127,3 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
     concurrent.futures.wait(
         [future_enheter, future_forr_adresse, future_orgform])
 
-
-"""
-
-# Thread pool for multithreading
-def insert_data_multithreaded(df, insert_function):
-    with ThreadPoolExecutor() as executor:
-        futures = [executor.submit(insert_function, row)
-                   for _, row in df.itertuples(name=None, index=False)]
-        # Optionally, collect results or handle exceptions
-        for future in as_completed(futures):
-            try:
-                result = future.result()  # If you want to capture return value
-            except Exception as exc:
-                print(f"Generated an exception: {exc}")
-
-
-with ThreadPoolExecutor() as executor:
-    # Submit each dataframe insert task to the executor
-    future_company = executor.submit(
-        insert_data_multithreaded, enheter, insert_company)
-    future_address = executor.submit(
-        insert_data_multithreaded, forretningsadresse, insert_address)
-    future_orgform = executor.submit(
-        insert_data_multithreaded, orgform, insert_orgform)
-
-    # Wait for all tasks to complete (optional)
-    for future in as_completed([future_company, future_address, future_orgform]):
-        try:
-            future.result()  # This will re-raise any exception that occurred
-        except Exception as exc:
-            print(f"Task generated an exception: {exc}")
-"""
