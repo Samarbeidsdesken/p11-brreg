@@ -215,9 +215,10 @@ if updated_orgs:
                     pass
                     insert_employees([new_employees], oppdateringsid[orgnr])
                     
-            """
-            CHECK BANKRUPTCY
-            """
+            # ---------------- #
+            # CHECK BANKRUPTCY #
+            # ---------------- #
+            
             if dictdata['konkurs'] == True:
                 konkurs = (dictdata['konkursdato'], orgnr)
                 update_enhet_konkurs(konkurs)
