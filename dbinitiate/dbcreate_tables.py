@@ -129,9 +129,9 @@ def create_table_forretningsadresse():
             forretningsadresse_landkode VARCHAR(10),
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            end_date DATE -- End date is NULL if this is the current role list,
+            end_date DATE, -- End date is NULL if this is the current role list,
             CONSTRAINT pk_adresse_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
-            )
+            );
         """
     ),
 
@@ -156,9 +156,9 @@ def create_table_orgform():
             orgform_kode VARCHAR(50),
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            end_date DATE -- End date is NULL if this is the current role list,
+            end_date DATE, -- End date is NULL if this is the current role list,
             CONSTRAINT pk_orgform_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
-            )
+            );
         """
     ),
 
@@ -184,7 +184,7 @@ def create_table_roller():
             id INTEGER NOT NULL DEFAULT 2858588, -- default is set to the change id value from which the tracking started
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            end_date DATE -- End date is NULL if this is the current role list,
+            end_date DATE, -- End date is NULL if this is the current role list,
             CONSTRAINT pk_roller_orgnr_id PRIMARY KEY (orgnr, id) -- Named composite primary key
             );
         """
@@ -212,7 +212,7 @@ def create_table_company_contacts():
             phone character varying(255) NOT NULL,
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            end_date DATE -- End date is NULL if this is the current role list,
+            end_date DATE, -- End date is NULL if this is the current role list,
             CONSTRAINT pk_company_contact_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
             );
         """
