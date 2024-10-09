@@ -1,5 +1,6 @@
 import psycopg2
 from dbconnect.dbconfig import load_config
+from dbfunctions.dbinsert_enheter_oppdateringsid import insert_enheter_oppdateringsid
 
 """
 New audits are inserted in the table database.tilsyn. The table is a copy of the data
@@ -10,7 +11,7 @@ the database ignores them (ON CONFLICT DO NOTHING).
 """
 
 
-def insert_company(enheter, table='enheter'):
+def insert_company(enheter, table='enheter', id = None):
     """Insert a new rolle into the table roller"""
     config = load_config()
 
@@ -26,8 +27,12 @@ def insert_company(enheter, table='enheter'):
                 cur.execute(sql, enheter)
 
                 conn.commit()
+        
+        insert_enheter_oppdateringsid(id, failed=False)
 
     except (Exception, psycopg2.DatabaseError) as error:
+        if id:
+            insert_enheter_oppdateringsid(id, failed=True)
         print(error)
 
     finally:

@@ -70,25 +70,25 @@ if updated_orgs:
                 None #dictdata['konkursdato']
             )
 
-            #insert_company([enhet])
+            insert_company([enhet], id = oppdateringsid[ny])
 
             forretningsadresse = toolbox.parse_address(dictdata)
 
-            #insert_address([forretningsadresse], oppdateringsid[ny])
+            insert_address([forretningsadresse], oppdateringsid[ny])
 
             orgform = (
                 dictdata['organisasjonsnummer'],
                 dictdata['organisasjonsform']['kode'],
             )
 
-            #insert_orgform([orgform], oppdateringsid[ny])
+            insert_orgform([orgform], oppdateringsid[ny])
             
             nace = (
                 dictdata['organisasjonsnummer'],
                 dictdata['naeringskode1']['kode']
             )
             
-            #insert_nace(nace)
+            insert_nace(nace)
             
             if dictdata['harRegistrertAntallAnsatte'] == True:
                 
@@ -97,7 +97,7 @@ if updated_orgs:
                     dictdata['employees']
                 )
 
-                #insert_employees([employees], oppdateringsid[ny])
+                insert_employees([employees], oppdateringsid[ny])
                 
            
     # Loop through all deleted companies, and set is_active as false. 
