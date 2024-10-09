@@ -17,7 +17,7 @@ all_orgs = select_orgs()
 
 print(type(all_orgs))
 
-df = pd.read_csv('enheter/alle_enheter_091024.csv', delimiter=',', dtype={
+df = pd.read_csv('/home/ubuntu/projects/p11-brreg/enheter/alle_enheter_091024.csv', delimiter=',', dtype={
                  'forretningsadresse.kommunenummer': object, 'forretningsadresse.postnummer': object, 'organisasjonsnummer': object})
 
 # Replace empty strings in date columns with NaN (equivalent to NULL)
