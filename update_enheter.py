@@ -126,7 +126,7 @@ if updated_orgs:
     # Loop through all deleted companies, and set is_active as false. 
     if 'Sletting' in updates.keys():
         for orgnr in updates['Sletting']:
-            update_enhet_slettet(orgnr, oppdateringsid[ny])
+            update_enhet_slettet(orgnr, oppdateringsid[orgnr])
 
     # Loop through all companies where there has been changes. The code 
     # does not record all types of changes. Only changes in address,
