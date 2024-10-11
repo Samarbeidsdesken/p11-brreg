@@ -6,18 +6,20 @@ from dbfunctions.dbinsert_forretningsadresse import insert_address
 from dbfunctions.dbinsert_orgform import insert_orgform
 from dbfunctions.dbinsert_nace import insert_nace
 from dbfunctions.dbinsert_employees import insert_employees
-from dbfunctions.dbselect_all_orgs import select_orgs
+from dbfunctions.dbinsert_employees import insert_employees
+from dbfunctions.dbinsert_konkurser import insert_konkurser
 from datetime import datetime
-
+import time
 import concurrent.futures
 
 # from concurrent.futures import ThreadPoolExecutor, as_completed
 
-all_orgs = select_orgs()
+#all_orgs = select_orgs()
 
-print(type(all_orgs))
 
-df = pd.read_csv('/home/ubuntu/projects/p11-brreg/enheter/alle_enheter_091024.csv', delimiter=',', dtype={
+#/home/ubuntu/projects/p11-brreg/ 
+
+df = pd.read_csv('enheter/alle_enheter_091024.csv', delimiter=',', dtype={
                  'forretningsadresse.kommunenummer': object, 'forretningsadresse.postnummer': object, 'organisasjonsnummer': object})
 
 # Replace empty strings in date columns with NaN (equivalent to NULL)
@@ -48,7 +50,7 @@ df.rename(
         'naeringskode3.kode': 'naeringskode3'
     }, inplace=True)
 
-df = df[~df.organisasjonsnummer.isin(all_orgs)]
+#df = df[~df.organisasjonsnummer.isin(all_orgs)]
 
 
 # --------------------------------- #
@@ -82,6 +84,8 @@ orgform = df[['organisasjonsnummer', 'orgform_kode']]
 
 nace = df[['organisasjonsnummer', 'naeringskode1']]
 
+nace = nace[nace['naeringskode1'].notna()]
+
 # --------- #
 # EMPLOYEES #
 # --------- #
@@ -95,9 +99,38 @@ employees = employees[employees['antallAnsatte'].notna()]
 employees['antallAnsatte'] = employees['antallAnsatte'].astype(int)
 employees['antallAnsatte'] = employees['antallAnsatte'].astype(str)
 
+
 # ------------------ #
 # INSERT IN DATABASE #
 # ------------------ #
+
+def split_list(input_list):
+    # Get the length of each smaller list
+    k, m = divmod(len(input_list), 1000)  # k is quotient, m is remainder
+    
+    # Split into 1000 smaller lists
+    return [input_list[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(1000)]
+
+
+forretningsadresse_list = [tuple(row) for row in forretningsadresse.itertuples(index=False, name=None)]
+forretningsadresse_insert = split_list(forretningsadresse_list)
+
+orgform_list = [tuple(row) for row in orgform.itertuples(index=False, name=None)]
+orgform_inset = split_list(orgform_list)
+
+nace_list = [tuple(row) for row in nace.itertuples(index=False, name=None)]
+nace_insert = split_list(nace_list)
+
+employees_list = [tuple(row) for row in employees.itertuples(index=False, name=None)]
+employees_insert = split_list(employees_list)
+
+start_time = time.time()
+#insert_address(forretningsadresse_insert, remote = True)
+
+print(start_time)
+
+#for item in employees_insert:
+#    insert_employees(item, remote= True)
 
 """
 for row in enheter.head(1000).itertuples(name=None, index=False):
@@ -113,25 +146,39 @@ for row in orgform.head(1000).itertuples(name=None, index=False):
 # Define a function to insert each dataset
 
 
-def insert_dataset(insert_function, dataset):
-    for row in dataset.itertuples(name=None, index=False):
-        insert_function([row])
+def insert_dataset(insert_function, insert_list):
+    for item in insert_list:
+        insert_function(item, remote = True)
+
 
 
 # Set up multithreading
 with concurrent.futures.ThreadPoolExecutor() as executor:
     # Submit the tasks to be run in parallel
-    future_enheter = executor.submit(
-        insert_dataset, insert_company, enheter)
+    #future_enheter = executor.submit(
+    #    insert_dataset, insert_company, enheter_insert)
     future_forr_adresse = executor.submit(
-        insert_dataset, insert_address, forretningsadresse)
+        insert_dataset, insert_address, forretningsadresse_insert)
     future_orgform = executor.submit(
-        insert_dataset, insert_orgform, orgform)
-    future_orgform = executor.submit(
-        insert_dataset, insert_nace, nace)
-    future_orgform = executor.submit(
-        insert_dataset, insert_employees, employees)
+        insert_dataset, insert_orgform, orgform_inset)
+    future_nace = executor.submit(
+        insert_dataset, insert_nace, nace_insert)
+    future_employees = executor.submit(
+        insert_dataset, insert_employees, employees_insert)
 
     # Optionally, wait for all to finish (this is useful for error handling/logging)
+    #concurrent.futures.wait(
+    #    [future_enheter, future_forr_adresse, future_orgform, future_nace, future_employees])
     concurrent.futures.wait(
-        [future_enheter, future_forr_adresse, future_orgform])
+        [future_forr_adresse, future_orgform, future_nace, future_employees])
+
+
+print("HELLO")
+
+
+end_time = time.time()
+
+# Calculate the duration
+elapsed_time = end_time - start_time
+
+print(elapsed_time)
