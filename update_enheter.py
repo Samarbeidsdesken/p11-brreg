@@ -64,7 +64,7 @@ if updated_orgs:
             # --------------------------------- #
             # BASIC INFORMATION ABOUT COMPANIES #
             # --------------------------------- #
-            print(dictdata)
+            
             enhet = (
                 dictdata['organisasjonsnummer'],
                 dictdata['navn'],
@@ -109,7 +109,7 @@ if updated_orgs:
                     dictdata['naeringskode1']['kode']
                 )
             
-                insert_nace(nace)
+                insert_nace([nace])
             
             # --------- #
             # EMPLOYEES #
