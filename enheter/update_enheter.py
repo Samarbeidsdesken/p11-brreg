@@ -18,7 +18,7 @@ def get_updated_companies(id):
     #url = """https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?dato={yesterday}T00:00:00.000Z""".format(
     #    yesterday=yesterday)
     
-    url = """https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?oppdateringsid={id}""".format(id = id)
+    url = """https://data.brreg.no/enhetsregisteret/api/oppdateringer/enheter?size=10000&oppdateringsid={id}""".format(id = id)
 
     try:
         req = requests.get(url)
