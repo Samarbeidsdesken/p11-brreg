@@ -146,9 +146,6 @@ if updated_orgs:
             dictdata = get_company(orgnr)
             
             new_address = toolbox.parse_address(dictdata)
-            
-            print(registered_address)
-            print(new_address)
 
             if registered_address != new_address:
                 end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
