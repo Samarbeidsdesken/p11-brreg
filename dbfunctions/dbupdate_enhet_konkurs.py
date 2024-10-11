@@ -14,7 +14,7 @@ def update_enhet_konkurs(data):
     sql = """
         UPDATE enheter
         SET konkurs = true,
-        SET konkursdato = {}
+        SET konkursdato = '{}'
         WHERE orgnr = '{}';
         """.format(
             data[0],
@@ -30,7 +30,7 @@ def update_enhet_konkurs(data):
                 conn.commit()
 
     except (Exception, psycopg2.DatabaseError) as error:
-        print('update_enhet_slettet: ' + str(error))
+        print('update_enhet_konkurs: ' + str(error))
 
     finally:
         pass

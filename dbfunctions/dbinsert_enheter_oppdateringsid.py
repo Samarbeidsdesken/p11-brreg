@@ -16,7 +16,7 @@ def insert_enheter_oppdateringsid(id, failed):
 
     sql = """
     INSERT INTO enheter_oppdateringsid (id, failed) values ({id}, {failed}) ON CONFLICT DO NOTHING;
-    """.format(id = id, failed = failed)
+    """.format(id = id, failed = str(failed))
 
     try:
         with psycopg2.connect(**config) as conn:
