@@ -3,7 +3,6 @@
 # Function for parsing the addres of a company after it is returned 
 # as json from the brreg API
 def parse_address(dictdata):
-    mytuple = None
     
     if 'forretningsadresse' in dictdata:
         forretningsadresse_adresse = ''
@@ -25,5 +24,15 @@ def parse_address(dictdata):
         )
         mytuple_updated = tuple(
             None if item == '' else item for item in mytuple)
+        
+    else:
+        mytuple_updated = tuple(
+            dictdata['organisasjonsnummer'],
+            None,
+            None,
+            None,
+            None,
+            None
+        )
 
     return mytuple_updated
