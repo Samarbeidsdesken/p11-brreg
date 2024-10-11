@@ -7,7 +7,7 @@ def select_enheter_ids(table='enheter_oppdateringsid', remote = False):
     config = load_config(remote = remote)
 
     sql = """
-    SELECT id FROM {table};
+    SELECT id FROM {table} WHERE failed = false;
     """.format(
         table=table
         )
