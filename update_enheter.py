@@ -25,6 +25,7 @@ from dbfunctions.dbselect_orgform import select_orgform
 from dbfunctions.dbselect_employees import select_employees
 from dbfunctions.dbselect_nace import select_nace
 from dbfunctions.dbselect_enheter_maxid import select_enheter_maxid
+from dbfunctions.dbselect_enheter_ids import select_enheter_ids
 
 # Toolbox functions
 from toolbox import toolbox
@@ -38,6 +39,7 @@ enheter_maxid = select_enheter_maxid()
 # Get companies where there has been changes. 
 updated_orgs = get_updated_companies('19801182')
 
+ids = select_enheter_ids()
 
 
 # Collect the companies where there has been changes
@@ -45,13 +47,15 @@ if updated_orgs:
     updates = {}
     oppdateringsid = {}
     for elem in updated_orgs['_embedded']['oppdaterteEnheter']:
-        if elem['endringstype'] in updates.keys():
-            updates[elem['endringstype']].append(elem['organisasjonsnummer'])
+        if elem['oppdateringsid'] not in ids:
             
-        else:
-            updates[elem['endringstype']] = [elem['organisasjonsnummer']]
+            if elem['endringstype'] in updates.keys():
+                updates[elem['endringstype']].append(elem['organisasjonsnummer'])
+                
+            else:
+                updates[elem['endringstype']] = [elem['organisasjonsnummer']]
 
-        oppdateringsid[elem['organisasjonsnummer']] = elem['oppdateringsid']
+            oppdateringsid[elem['organisasjonsnummer']] = elem['oppdateringsid']
     
     # Loop through all new companies, and insert the 
     # data to the database
