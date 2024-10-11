@@ -146,12 +146,15 @@ if updated_orgs:
             dictdata = get_company(orgnr)
             
             new_address = toolbox.parse_address(dictdata)
+            
+            print(registered_address)
+            print(new_address)
 
             if registered_address != new_address:
                 end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
                 
                 update_addresse((end_date, orgnr))
-                insert_address([new_address], oppdateringsid[orgnr])
+                insert_address([new_address], id = oppdateringsid[orgnr])
                 
 
             # ------------------- #
@@ -168,7 +171,7 @@ if updated_orgs:
                 end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
                 
                 update_orgform((end_date, orgnr))
-                insert_orgform([new_orgform], oppdateringsid[orgnr])
+                insert_orgform([new_orgform], id = oppdateringsid[orgnr])
                 
             # ------------- #
             # INDUSTRY CODE #
@@ -187,7 +190,7 @@ if updated_orgs:
                     end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
                     
                     update_nace((end_date, orgnr))
-                    insert_nace([new_nace], oppdateringsid[orgnr])
+                    insert_nace([new_nace], id = oppdateringsid[orgnr])
                 
             # --------- #
             # EMPLOYEES #
@@ -210,10 +213,9 @@ if updated_orgs:
                         end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
                         
                         update_employees((end_date, orgnr))
-                        insert_employees([new_employees], oppdateringsid[orgnr])
+                        insert_employees([new_employees], id = oppdateringsid[orgnr])
                 else: 
-                    pass
-                    insert_employees([new_employees], oppdateringsid[orgnr])
+                    insert_employees([new_employees], id = oppdateringsid[orgnr])
                     
             # ---------------- #
             # CHECK BANKRUPTCY #
