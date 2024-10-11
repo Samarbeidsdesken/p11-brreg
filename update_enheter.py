@@ -69,7 +69,7 @@ if updated_orgs:
                 dictdata['organisasjonsnummer'],
                 dictdata['navn'],
                 dictdata['registreringsdatoEnhetsregisteret'],
-                dictdata['stiftelsesdato'],
+                dictdata['stiftelsesdato'] if 'stiftelsesdato' in dictdata.keys() else None,
                 dictdata['maalform'],
                 None, #dictdata['konkurs'],
                 None #dictdata['konkursdato']
