@@ -129,8 +129,9 @@ def create_table_forretningsadresse():
             forretningsadresse_landkode VARCHAR(10),
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            start_date DATE DEFAULT CURRENT_DATE,
             end_date DATE, -- End date is NULL if this is the current role list,
-            CONSTRAINT pk_adresse_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
+            CONSTRAINT pk_adresse_orgnr_startdate PRIMARY KEY (orgnr, start_date) -- Named composite primary key
             );
         """
     ),
@@ -156,8 +157,9 @@ def create_table_orgform():
             orgform_kode VARCHAR(50),
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            start_date DATE DEFAULT CURRENT_DATE,
             end_date DATE, -- End date is NULL if this is the current role list,
-            CONSTRAINT pk_orgform_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
+            CONSTRAINT pk_orgform_orgnr_startdate PRIMARY KEY (orgnr, start_date) -- Named composite primary key
             );
         """
     ),
@@ -212,8 +214,9 @@ def create_table_company_contacts():
             phone character varying(255) NOT NULL,
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            start_date DATE DEFAULT CURRENT_DATE,
             end_date DATE, -- End date is NULL if this is the current role list,
-            CONSTRAINT pk_company_contact_orgnr_enddate PRIMARY KEY (orgnr, end_date) -- Named composite primary key
+            CONSTRAINT pk_company_contact_orgnr_startdate PRIMARY KEY (orgnr, start_date) -- Named composite primary key
             );
         """
     ),
@@ -239,7 +242,9 @@ def create_table_company_nace():
             naeringskode1 character varying(255) NOT NULL,
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            end_date DATE -- End date is NULL if this is the current role list
+            start_date DATE DEFAULT CURRENT_DATE,
+            end_date DATE, -- End date is NULL if this is the current role list
+            CONSTRAINT pk_company_nace_orgnr_startdate PRIMARY KEY (orgnr, start_date) -- Named composite primary key
             );
         """
     ),
@@ -264,7 +269,9 @@ def create_table_employees():
             employees INTEGER NOT NULL,
             is_current BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            end_date DATE -- End date is NULL if this is the current role list
+            start_date DATE DEFAULT CURRENT_DATE,
+            end_date DATE, -- End date is NULL if this is the current role list
+            CONSTRAINT pk_company_employees_orgnr_startdate PRIMARY KEY (orgnr, start_date) -- Named composite primary key
             );
         """
     ),
