@@ -37,7 +37,7 @@ from datetime import datetime
 enheter_maxid = select_enheter_maxid()
 
 # Get companies where there has been changes. 
-updated_orgs = get_updated_companies('19801182')
+updated_orgs = get_updated_companies(enheter_maxid)
 
 ids = select_enheter_ids()
 
