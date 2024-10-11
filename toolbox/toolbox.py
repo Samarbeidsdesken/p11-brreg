@@ -26,7 +26,7 @@ def parse_address(dictdata):
             None if item == '' else item for item in mytuple)
         
     else:
-        mytuple_updated = tuple(
+        mytuple_updated = (
             dictdata['organisasjonsnummer'],
             None,
             None,
