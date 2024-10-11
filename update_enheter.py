@@ -64,7 +64,7 @@ if updated_orgs:
             # --------------------------------- #
             # BASIC INFORMATION ABOUT COMPANIES #
             # --------------------------------- #
-            
+            print(dictdata)
             enhet = (
                 dictdata['organisasjonsnummer'],
                 dictdata['navn'],
