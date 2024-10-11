@@ -102,12 +102,14 @@ if updated_orgs:
             # INDUSTRY CODE #
             # ------------- #
             
-            nace = (
-                dictdata['organisasjonsnummer'],
-                dictdata['naeringskode1']['kode']
-            )
+            if 'naeringskode1' in dictdata.keys():
             
-            insert_nace(nace)
+                nace = (
+                    dictdata['organisasjonsnummer'],
+                    dictdata['naeringskode1']['kode']
+                )
+            
+                insert_nace(nace)
             
             # --------- #
             # EMPLOYEES #
