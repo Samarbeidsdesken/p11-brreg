@@ -200,7 +200,7 @@ if updated_orgs:
             # --------- #
             
             
-            if 'harRegistrertAntallAnsatte' in dictdata['harRegistrertAntallAnsatte']:
+            if 'harRegistrertAntallAnsatte' in dictdata:
                 
                 if dictdata['harRegistrertAntallAnsatte'] == True and 'antallAnsatte' in dictdata.keys():
                 
