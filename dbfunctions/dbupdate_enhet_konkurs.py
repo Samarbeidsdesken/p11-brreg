@@ -13,9 +13,11 @@ def update_enhet_konkurs(data):
     # Define the SQL update query
     sql = """
         UPDATE enheter
-        SET konkurs = true,
-        SET konkursdato = '{}'
-        WHERE orgnr = '{}';
+        SET 
+            konkurs = true,
+            konkursdato = '{}'
+        WHERE 
+            orgnr = '{}';
         """.format(
             data[0],
             data[1]
