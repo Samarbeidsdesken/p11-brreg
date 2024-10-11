@@ -227,10 +227,11 @@ if updated_orgs:
             # CHECK BANKRUPTCY #
             # ---------------- #
             
-            if dictdata['konkurs'] == True:
-                konkurs = (dictdata['konkursdato'], orgnr)
-                update_enhet_konkurs(konkurs)
-                
+            if 'konkurs' in dictdata: 
+                if dictdata['konkurs'] == True:
+                    konkurs = (dictdata['konkursdato'], orgnr)
+                    update_enhet_konkurs(konkurs)
+                    
                 
             
             
