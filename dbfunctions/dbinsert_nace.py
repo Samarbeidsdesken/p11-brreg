@@ -3,9 +3,9 @@ from dbconnect.dbconfig import load_config
 from dbfunctions.dbinsert_enheter_oppdateringsid import insert_enheter_oppdateringsid
 
 
-def insert_nace(enheter, id, table='company_nace'):
+def insert_nace(enheter, id = None, table='company_nace', remote = False):
     """Insert a address into the table forretningsadresse"""
-    config = load_config()
+    config = load_config(remote = remote)
 
     template = ','.join(['%s'] * len(enheter))
     sql = """
@@ -19,12 +19,14 @@ def insert_nace(enheter, id, table='company_nace'):
                 cur.execute(sql, enheter)
 
                 conn.commit()
-                
-        insert_enheter_oppdateringsid(id, failed=False)
+        
+        if id: 
+            insert_enheter_oppdateringsid(id, failed=False)
 
     except (Exception, psycopg2.DatabaseError) as error:
         print('inserg orgform: '+ str(error))
-        insert_enheter_oppdateringsid(id, failed=True)
+        if id: 
+            insert_enheter_oppdateringsid(id, failed=True)
     finally:
         pass
 

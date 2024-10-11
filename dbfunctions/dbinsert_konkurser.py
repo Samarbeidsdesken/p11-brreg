@@ -9,10 +9,10 @@ Old records are removed, and new recards are appendned. If there are any duplica
 the database ignores them (ON CONFLICT DO NOTHING). 
 """
 
-def insert_konkurser(konkurser, table = 'konkurser'):
+def insert_konkurser(konkurser, table = 'konkurser', remote = False):
 
     """Insert a new konkurs into the table konkurser"""
-    config = load_config()
+    config = load_config(remote = remote)
 
     template = ','.join(['%s'] * len(konkurser))
     sql = """

@@ -4,9 +4,9 @@ from dbfunctions.dbinsert_enheter_oppdateringsid import insert_enheter_oppdateri
 
 
 
-def insert_address(enheter, id, table='forretningsadresse'):
+def insert_address(enheter, id = None, table='forretningsadresse', remote = False):
     """Insert a address into the table forretningsadresse"""
-    config = load_config()
+    config = load_config(remote = remote)
 
     template = ','.join(['%s'] * len(enheter))
     sql = """
@@ -20,12 +20,14 @@ def insert_address(enheter, id, table='forretningsadresse'):
                 cur.execute(sql, enheter)
 
                 conn.commit()
-                
-        insert_enheter_oppdateringsid(id, failed=False)
+        
+        if id:
+            insert_enheter_oppdateringsid(id, failed=False)
 
     except (Exception, psycopg2.DatabaseError) as error:
         print('insert_address: ' + str(error))
-        insert_enheter_oppdateringsid(id, failed=True)
+        if id: 
+            insert_enheter_oppdateringsid(id, failed=True)
 
     finally:
         pass
