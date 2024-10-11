@@ -1,12 +1,13 @@
 import psycopg2
 from dbconnect.dbconfig import load_config
+from dbfunctions.dbinsert_enheter_oppdateringsid import insert_enheter_oppdateringsid
 
 """
 Updates old records of roller when new roles are added.
 """
 
 
-def update_enhet_konkurs(data):
+def update_enhet_konkurs(data, id = None):
     """Update a company if it is bankrupt"""
     config = load_config()
 
@@ -30,8 +31,13 @@ def update_enhet_konkurs(data):
                 cur.execute(sql)
 
                 conn.commit()
+                
+        if id:
+            insert_enheter_oppdateringsid(id, failed=False)
 
     except (Exception, psycopg2.DatabaseError) as error:
+        if id:
+            insert_enheter_oppdateringsid(id, failed=True)
         print('update_enhet_konkurs: ' + str(error))
 
     finally:
