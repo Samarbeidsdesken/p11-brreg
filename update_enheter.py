@@ -199,26 +199,29 @@ if updated_orgs:
             # EMPLOYEES #
             # --------- #
             
-            if dictdata['harRegistrertAntallAnsatte'] == True and 'antallAnsatte' in dictdata.keys():
+            
+            if 'harRegistrertAntallAnsatte' in dictdata['harRegistrertAntallAnsatte']:
                 
-                registered_employees = select_employees(orgnr)
+                if dictdata['harRegistrertAntallAnsatte'] == True and 'antallAnsatte' in dictdata.keys():
                 
-                new_employees = (
-                    dictdata['organisasjonsnummer'],
-                    dictdata['antallAnsatte']
-                )
-
-                # Is none if employers are not registered
-                if registered_employees:
+                    registered_employees = select_employees(orgnr)
                     
-                    if registered_employees != new_employees:
+                    new_employees = (
+                        dictdata['organisasjonsnummer'],
+                        dictdata['antallAnsatte']
+                    )
 
-                        end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
+                    # Is none if employers are not registered
+                    if registered_employees:
                         
-                        update_employees((end_date, orgnr))
+                        if registered_employees != new_employees:
+
+                            end_date = datetime.strftime(datetime.now(), format='%Y-%m-%d')
+                            
+                            update_employees((end_date, orgnr))
+                            insert_employees([new_employees], id = oppdateringsid[orgnr])
+                    else: 
                         insert_employees([new_employees], id = oppdateringsid[orgnr])
-                else: 
-                    insert_employees([new_employees], id = oppdateringsid[orgnr])
                     
             # ---------------- #
             # CHECK BANKRUPTCY #
